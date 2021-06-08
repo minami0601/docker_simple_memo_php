@@ -39,7 +39,7 @@
         header('Location: ../../user/');
         exit;
     }
-    
+
     // DB接続処理
     $database_handler = getDatabaseConnection();
     try {
@@ -51,6 +51,11 @@
           $statement->bindParam(':email', $user_email);
           $statement->bindParam(':password', $password);
           $statement->execute();
+          
+          $_SESSION['user'] = [
+            'name' => $user_name,
+            'id' => $database_handler->lastInsertId()
+        ];
         }
       } catch (Throwable $e) {
           echo $e->getMessage();
